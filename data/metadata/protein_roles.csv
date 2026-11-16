@@ -1,0 +1,9 @@
+pdb_fn,role
+1fna_A_p.pdb,train
+1r26_remod_p.pdb,train
+1tzv_remod_p.pdb,train
+1d1q_remod_p.pdb,train
+1im5_remod_p.pdb,train
+1f6b_remod_p.pdb,train
+1i1j_remod_p.pdb,holdout
+1xdz_remod_p.pdb,holdout
