@@ -1,6 +1,6 @@
 # METL-Global: Dataset Preparation and EvoDiff Experiments
 
-This is a record of what I've worked on since Check-in 1 for our 6.3930 project.
+This is a record of what I've worked on since Check-in 1
 
 The main question we're interested in is whether fine-tuning a pretrained protein model on biophysical information can improve its representations, especially for downstream tasks involving experimentally measured protein properties.
 
@@ -105,7 +105,6 @@ Protein metadata is in data/metadata/.
 Important experiments:
 
 | Job ID | Experiment |
-|---|---|
 | 29051193 | Dataset export and validation |
 | 29126077 | Nearest-neighbor baseline |
 | 29247981 | Frozen EvoDiff embedding extraction |
@@ -124,4 +123,4 @@ The frozen regression checkpoint and predictions are stored in:
 
 metl-global/analysis/evodiff_frozen_mlp_29262121/
 
-I haven't uploaded the large datasets or checkpoints to GitHub. They're preserved on Engaging, while this repository contains the code and smaller results needed to understand and reproduce the experiments.
+I haven't uploaded the large datasets or checkpoints to GitHub. They're preserved on Engaging, and this repository contains the code and smaller results needed to understand and reproduce the experiments.
