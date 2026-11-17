@@ -1,0 +1,14 @@
+{
+  "model": "Frozen EvoDiff OA_DM_38M + MLP",
+  "training_variants": 240000,
+  "validation_variants": 12000,
+  "best_epoch": 13,
+  "best_val_mse_standardized": 0.006263081915676594,
+  "evaluation_rows": 34000,
+  "targets": [
+    "fa_atr",
+    "fa_sol"
+  ],
+  "target_scaling": "per-residue, train-only mean/std",
+  "feature_scaling": "train-only mean/std"
+}
