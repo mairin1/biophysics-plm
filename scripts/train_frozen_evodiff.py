@@ -296,6 +296,9 @@ def main():
     with open(args.out / "summary.json", "w") as f:
         json.dump({
             "model": "Frozen EvoDiff OA_DM_38M + MLP",
+            "seed": seed,
+            'epochs': args.epochs,
+            'batch_size': args.batch_size,
             "training_variants": len(train_indices),
             "validation_variants": len(val_indices),
             "best_epoch": best_epoch,
