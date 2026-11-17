@@ -36,9 +36,9 @@ class SingleLayer(nn.Module):
     def __init__(self, input_dim):
         super().__init__()
         self.layers = nn.Sequential(
-            nn.Linear(input_dim, 512),
+            nn.Linear(input_dim, 256),
             nn.ReLU(),
-            nn.Linear(512, 1),
+            nn.Linear(256, 1),
         )
 
     def forward(self, x):
@@ -127,7 +127,7 @@ def train(model, epochs, training_loader, val_loader, loss_fn, optimizer, verbos
     
     return train_losses, val_losses
 
-def compare(embeddings_dir, fa_sol_dir, fa_atr_dir, model_str, epochs=10, lr=0.01):
+def compare(embeddings_dir, fa_sol_dir, fa_atr_dir, model_str, epochs=10, lr=0.01, plot=True):
     data, input_dim  = load_data(embeddings_dir, fa_sol_dir, fa_atr_dir)
 
     # Baseline embeddings
@@ -147,7 +147,6 @@ def compare(embeddings_dir, fa_sol_dir, fa_atr_dir, model_str, epochs=10, lr=0.0
                                              data['val_gfp_loader'],
                                              loss_fn, optimizer)
     test_outputs = model(data['X_test'])
-    print(test_outputs.shape)
     test_loss = loss_fn(np.squeeze(test_outputs), data['y_test'])
 
     test_gfp_outputs = model_gfp(data['X_gfp_test'])
@@ -158,8 +157,8 @@ def compare(embeddings_dir, fa_sol_dir, fa_atr_dir, model_str, epochs=10, lr=0.0
             'val_gfp_losses': val_gfp_losses,
             'test_loss': test_loss.item(),
             'test_gfp_loss': test_gfp_loss.item()}
-
-    plot_comparison(model_str, results)
+    if(plot):
+        plot_comparison(model_str, results)
 
     return results
 
@@ -201,3 +200,17 @@ def plot_comparison(model_str, losses):
     fig.suptitle("Loss comparison", fontsize=13)
     fig.tight_layout()
     plt.show()
+
+def run_repetitions(embeddings_dir, fa_sol_dir, fa_atr_dir, model_str, repetitions=10):
+    multi_run = [compare(embeddings_dir, fa_sol_dir, fa_atr_dir, model_str, plot=False)
+                 for _ in range(repetitions)]
+    test_losses = [multi_run[i]['test_loss'] for i in range(repetitions)]
+    test_gfp_losses = [multi_run[i]['test_gfp_loss'] for i in range(repetitions)]
+    test_losses = np.array(test_losses)
+    test_gfp_losses = np.array(test_gfp_losses)
+    print(f"Avg. Test Loss {model_str}: {np.mean(test_losses):.3f}")
+    print(f'Stdev {model_str}: {np.std(test_losses):.3f}')
+    print(f"Avg. Test Loss {model_str} w/ fa_sol: {np.mean(test_gfp_losses):.3f}")
+    print(f'Stdev {model_str} w/ fa_sol: {np.std(test_gfp_losses):.3f}')
+    return {'test_losses':test_losses,
+            'test_gfp_losses':test_gfp_losses}
