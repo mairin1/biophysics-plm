@@ -81,6 +81,11 @@ class Predictor(nn.Module):
         embeddings = self.last_norm(self.embedder(x, None))
         return self.head(embeddings.mean(dim=1))
 
+def load_baseline_model():
+    backbone, _, tokenizer, _ = OA_DM_38M()
+    model = Predictor(backbone, len(TARGETS)).cuda()
+    return model, tokenizer
+
 
 def run_epoch(model, datasets, optimizer, batch_size, rng, device):
     training = optimizer is not None
@@ -129,10 +134,9 @@ def main():
     random.seed(seed)
     torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
-    backbone, _, tokenizer, _ = OA_DM_38M()
+    model, tokenizer = load_baseline_model()
     datasets = read_data(args.source, tokenizer, args.max_train_per_protein, args.max_val_per_protein)
     stats = normalize(datasets)
-    model = Predictor(backbone, len(TARGETS)).cuda()
     initial = {name: param.detach().cpu().clone() for name, param in model.embedder.named_parameters()}
     opt = torch.optim.AdamW([
         {'params': model.embedder.parameters(), 'lr': 2e-5},
@@ -164,7 +168,7 @@ def main():
                     'normalization': stats,
                     'best_epoch': epoch,
                     'val_mse': val_loss,
-                    'seed': 20261116,
+                    'seed': seed,
                 }, args.out / 'best_model.pt.partial')
                 os.replace(args.out / 'best_model.pt.partial', args.out / 'best_model.pt')
             if epoch - best_epoch >= 3:
@@ -183,7 +187,7 @@ def main():
         json.dump({
             'model': 'EvoDiff OA_DM_38M, encoder+multitask head updated',
             'targets': TARGETS, 'reserved': RESERVED,
-            'epochs': args.epoch, 'batch_size': args.batch_size, # adding args for reproducibility
+            'epochs': args.epochs, 'batch_size': args.batch_size, # adding args for reproducibility
             'seed': seed, 'best_epoch': best_epoch, 'best_val_mse': best_loss,
             'relative_encoder_weight_change': relative_delta,
             'train_rows': sum(len(s['tokens']) for s in trainsets.values()),

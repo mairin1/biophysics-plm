@@ -221,3 +221,5 @@ __marimo__/
 
 *.DS_Store
 .ignore
+
+data/protein_gym
