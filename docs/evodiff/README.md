@@ -1,8 +1,8 @@
-# EvoDiff with Rosetta supervision — update since Check-in 1
+# EvoDiff with Rosetta supervision: update since Check-in 1
 
 **6.3930 | November 2026**
 
-This is the EvoDiff work I did for the project. The original question was whether adding biophysical supervision to a pretrained protein model could make its representations more useful. At Check-in 1, the EvoDiff work was limited to frozen-embedding experiments on avGFP. Since then I moved to METL-Global, actually fine-tuned EvoDiff, compared different groups of Rosetta labels, and checked what happened on two proteins not used for Rosetta fine-tuning.
+This is the EvoDiff work I did for the project. The original question was whether adding biophysical supervision to a pretrained protein model could make its representations more useful. At Check-in 1, the EvoDiff work was limited to frozen-embedding experiments on avGFP. Since then we moved to METL-Global, fine-tuned EvoDiff, compared different groups of Rosetta labels, and checked what happened on two proteins not used for Rosetta fine-tuning.
 
 The short version: the models improved at predicting related Rosetta properties on the six proteins represented during training. That improvement was much less reliable on the two excluded proteins. I then tried smaller encoder updates and partial freezing. Both reduced the increase in masked-token prediction loss; partial freezing also looked better in some low-support probe comparisons. None of this establishes an improvement in experimentally measured protein function.
 
