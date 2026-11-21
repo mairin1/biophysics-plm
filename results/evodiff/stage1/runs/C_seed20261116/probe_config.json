@@ -1,0 +1,14 @@
+{
+  "properties": [
+    "fa_atr",
+    "fa_sol"
+  ],
+  "support_per_training_protein": 2000,
+  "validation_per_training_protein": 500,
+  "within_protein_test_per_protein": 2000,
+  "ridge_alpha": 100.0,
+  "feature_standardization": "global train probe only",
+  "target_standardization": "per protein, train probe only",
+  "fixed_probe_sampling_seed": 654321,
+  "warning": "Within-protein local interpolation only; training protein variants seen during encoder fine-tuning."
+}

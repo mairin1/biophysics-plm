@@ -1,0 +1,8 @@
+{
+  "condition": "BASELINE",
+  "seed": 20261116,
+  "n_targets": 0,
+  "status": "PRETRAINED_FROZEN",
+  "train_rows": 0,
+  "probe_rows": 24
+}

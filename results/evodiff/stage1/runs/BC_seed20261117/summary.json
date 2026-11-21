@@ -1,0 +1,26 @@
+{
+  "condition": "BC",
+  "seed": 20261117,
+  "targets": [
+    "fa_elec",
+    "fa_rep",
+    "hbond_bb_sc",
+    "hbond_lr_bb",
+    "hbond_sc",
+    "hbond_sr_bb",
+    "fa_intra_rep",
+    "fa_intra_sol_xover4",
+    "lk_ball_wtd",
+    "cbeta",
+    "cenpack",
+    "env"
+  ],
+  "n_targets": 12,
+  "best_epoch": 23,
+  "last_epoch": 29,
+  "best_val_mse": 0.38071637123823165,
+  "relative_encoder_delta": 0.04070173786428783,
+  "seconds_in_this_invocation": 7554.484422922134,
+  "status": "TRAINED",
+  "probe_rows": 24
+}

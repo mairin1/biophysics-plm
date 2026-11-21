@@ -1,0 +1,27 @@
+{
+  "condition": "B",
+  "targets": [
+    "fa_elec",
+    "fa_rep",
+    "hbond_bb_sc",
+    "hbond_lr_bb",
+    "hbond_sc",
+    "hbond_sr_bb"
+  ],
+  "seed": 20261116,
+  "source": "metl-global/exports/run_29051193",
+  "epochs_max": 40,
+  "patience": 6,
+  "min_epochs": 10,
+  "batch_size": 64,
+  "encoder_lr": 2e-05,
+  "head_lr": 0.0002,
+  "weight_decay": 0.01,
+  "clip_grad_norm": 0.5,
+  "warmup_fraction": 0.05,
+  "minimum_lr_fraction": 0.1,
+  "relative_min_delta": 0.002,
+  "selection": "fine-tuning validation MSE",
+  "normalization": "train-only per protein and target",
+  "note": "This protocol measures within-protein diagnostics; not experimental transfer or independent held-out-protein generalization."
+}

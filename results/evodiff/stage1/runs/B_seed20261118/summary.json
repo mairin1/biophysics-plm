@@ -1,0 +1,20 @@
+{
+  "condition": "B",
+  "seed": 20261118,
+  "targets": [
+    "fa_elec",
+    "fa_rep",
+    "hbond_bb_sc",
+    "hbond_lr_bb",
+    "hbond_sc",
+    "hbond_sr_bb"
+  ],
+  "n_targets": 6,
+  "best_epoch": 15,
+  "last_epoch": 21,
+  "best_val_mse": 0.385475454946359,
+  "relative_encoder_delta": 0.03378924535439353,
+  "seconds_in_this_invocation": 5524.765134334564,
+  "status": "TRAINED",
+  "probe_rows": 24
+}
