@@ -1,0 +1,13 @@
+condition,seed,protein,target,method,n_query,spearman,alpha,source_val_spearman
+GENTLE,20261117,1i1j_remod_p.pdb,fa_atr,source_trained_probe,3500,0.2888727615947789,10.0,0.6671564473937139
+GENTLE,20261117,1i1j_remod_p.pdb,fa_sol,source_trained_probe,3500,0.40667086249214085,10.0,0.7912905969623522
+GENTLE,20261117,1i1j_remod_p.pdb,total_sasa,source_trained_probe,3500,0.12700193236890545,100.0,0.48119948611247826
+GENTLE,20261117,1i1j_remod_p.pdb,rg,source_trained_probe,3500,0.14551108032528565,100.0,0.4886092454854845
+GENTLE,20261117,1i1j_remod_p.pdb,pack,source_trained_probe,3500,0.030211834410677263,100.0,0.27441679931487784
+GENTLE,20261117,1i1j_remod_p.pdb,unsat_hbond,source_trained_probe,3500,0.07209988605783159,100.0,0.34239232244123213
+GENTLE,20261117,1xdz_remod_p.pdb,fa_atr,source_trained_probe,3500,0.38299067525212066,10.0,0.6671564473937139
+GENTLE,20261117,1xdz_remod_p.pdb,fa_sol,source_trained_probe,3500,0.6386439370012109,10.0,0.7912905969623522
+GENTLE,20261117,1xdz_remod_p.pdb,total_sasa,source_trained_probe,3500,0.12499276950085282,100.0,0.48119948611247826
+GENTLE,20261117,1xdz_remod_p.pdb,rg,source_trained_probe,3500,0.23451959610379824,100.0,0.4886092454854845
+GENTLE,20261117,1xdz_remod_p.pdb,pack,source_trained_probe,3500,0.07131858932719361,100.0,0.27441679931487784
+GENTLE,20261117,1xdz_remod_p.pdb,unsat_hbond,source_trained_probe,3500,0.07276737699108991,100.0,0.34239232244123213

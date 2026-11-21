@@ -1,0 +1,12 @@
+{
+  "method": "L2SP",
+  "seed": 20261116,
+  "best_epoch": 25,
+  "last_epoch": 31,
+  "best_val_mse": 0.3725679661631584,
+  "relative_pretrained_weight_change": 0.030812050796376146,
+  "relative_embedder_weight_change": 0.030806252959974873,
+  "frozen_weight_absolute_change": 0.0,
+  "seconds": 8593.318389415741,
+  "status": "TRAIN_COMPLETE"
+}

@@ -1,0 +1,6 @@
+CPU audit: 29720590
+GPU retention check: 29720591
+Fine-tuning/evaluation array: 29720592 (9 tasks, max 3 simultaneous)
+Final report: 29720593
+Submission: 2026-11-19T21:58:26-05:00
+Output: metl-global/analysis/evodiff_checkin2_20261119

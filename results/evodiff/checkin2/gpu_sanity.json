@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "comparison": [
+    {
+      "condition": "BASELINE",
+      "seed": 20261116,
+      "max_abs_nll_deviation": 0.0,
+      "matched_rows": 12
+    },
+    {
+      "condition": "ABC",
+      "seed": 20261116,
+      "max_abs_nll_deviation": 0.0,
+      "matched_rows": 12
+    }
+  ],
+  "interpretation": "Masked-token NLL measures original diffusion-head compatibility with the updated encoder; not verified generation quality"
+}

@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "source_hashes": {
+    "sequences.csv.gz": "b569ca90cc6e0b13c42d3bf6d1635cc62d514172ff29e84ee2b196c1d0036b6a",
+    "rosetta_numeric.csv.gz": "b066c0b16d5aae2c8fe62d3693e3166f390cec6880231abda00236f1ef63d76a",
+    "sample_manifest.csv": "948593448413a31bab69cdac08a30851c770ba4372c719f83bfcb388968da327"
+  },
+  "source_proteins": [
+    "1d1q_remod_p.pdb",
+    "1f6b_remod_p.pdb",
+    "1fna_A_p.pdb",
+    "1im5_remod_p.pdb",
+    "1r26_remod_p.pdb",
+    "1tzv_remod_p.pdb"
+  ],
+  "heldout_proteins": [
+    "1i1j_remod_p.pdb",
+    "1xdz_remod_p.pdb"
+  ],
+  "reference_checkpoints": [
+    "ABC_seed20261116",
+    "ABC_seed20261117",
+    "ABC_seed20261118"
+  ],
+  "existing_transfer_manifest": "metl-global/analysis/evodiff_transfer_20261119/evaluation_manifest.json",
+  "experimental_status": "Exploratory, heldout labels already examined; not independent confirmation"
+}

@@ -1,0 +1,12 @@
+{
+  "method": "PARTIAL",
+  "seed": 20261117,
+  "best_epoch": 40,
+  "last_epoch": 40,
+  "best_val_mse": 0.5309084752003352,
+  "relative_pretrained_weight_change": 0.02691166605501178,
+  "relative_embedder_weight_change": 0.026903488351183502,
+  "frozen_weight_absolute_change": 0.0,
+  "seconds": 4911.037749290466,
+  "status": "TRAIN_COMPLETE"
+}
