@@ -60,7 +60,7 @@ We also ran masked-token prediction with EvoDiff's original output head attached
 
 7. Why we changed the fine-tuning method
 
-At this point, changing the Rosetta targets again wasn't the most useful next step. We had evidence of stronger within-protein performance, weak cross-protein transfer, and a large increase in the original-task loss. I looked into the transfer-learning and continual-learning material from 6.7960 and related work, particularly methods that restrict updates to pretrained weights.
+At this point, changing the Rosetta targets again wasn't the most useful next step. We had evidence of stronger within-protein performance, weak cross-protein transfer, and a large increase in the original-task loss. I looked into the transfer-learning and continual-learning material from related work in the literature, particularly methods that restrict updates to pretrained weights.
 
 We kept the ABC targets, six source proteins, two holdouts, and evaluation setup fixed, then tried three changes to the training procedure:
 
