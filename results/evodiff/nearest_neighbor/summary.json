@@ -1,0 +1,24 @@
+{
+  "source_variants": 274000,
+  "queries_evaluated": 24000,
+  "numeric_properties": 60,
+  "zero_distance_counts": {
+    "1d1q_remod_p.pdb/test": 0,
+    "1d1q_remod_p.pdb/val": 0,
+    "1f6b_remod_p.pdb/test": 0,
+    "1f6b_remod_p.pdb/val": 0,
+    "1fna_A_p.pdb/test": 0,
+    "1fna_A_p.pdb/val": 0,
+    "1im5_remod_p.pdb/test": 0,
+    "1im5_remod_p.pdb/val": 0,
+    "1r26_remod_p.pdb/test": 0,
+    "1r26_remod_p.pdb/val": 0,
+    "1tzv_remod_p.pdb/test": 0,
+    "1tzv_remod_p.pdb/val": 0
+  },
+  "total_zero_distance": 0,
+  "heldout_proteins_excluded": [
+    "1i1j_remod_p.pdb",
+    "1xdz_remod_p.pdb"
+  ]
+}

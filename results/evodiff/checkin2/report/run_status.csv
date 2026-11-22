@@ -1,0 +1,10 @@
+method,seed,train_complete,evaluation_complete,path
+GENTLE,20261116,1,1,metl-global/analysis/evodiff_checkin2_20261119/runs/GENTLE_seed20261116
+GENTLE,20261117,1,1,metl-global/analysis/evodiff_checkin2_20261119/runs/GENTLE_seed20261117
+GENTLE,20261118,1,1,metl-global/analysis/evodiff_checkin2_20261119/runs/GENTLE_seed20261118
+L2SP,20261116,1,1,metl-global/analysis/evodiff_checkin2_20261119/runs/L2SP_seed20261116
+L2SP,20261117,1,1,metl-global/analysis/evodiff_checkin2_20261119/runs/L2SP_seed20261117
+L2SP,20261118,1,1,metl-global/analysis/evodiff_checkin2_20261119/runs/L2SP_seed20261118
+PARTIAL,20261116,1,1,metl-global/analysis/evodiff_checkin2_20261119/runs/PARTIAL_seed20261116
+PARTIAL,20261117,1,1,metl-global/analysis/evodiff_checkin2_20261119/runs/PARTIAL_seed20261117
+PARTIAL,20261118,1,1,metl-global/analysis/evodiff_checkin2_20261119/runs/PARTIAL_seed20261118

@@ -219,7 +219,17 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
+# EvoDiff / METL large artifacts
+/metl-global/
+/results/evodiff/**/*.pt
+/results/evodiff/**/*.pth
+/results/evodiff/**/*.npz
+/results/evodiff/**/*.npy
+/results/evodiff/**/*.h5
+/results/evodiff/**/*.gz
+/experiments/checkin2_v3/__pycache__/
 *.DS_Store
 .ignore
 
 data/protein_gym
+.ignore

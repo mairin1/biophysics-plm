@@ -1,0 +1,55 @@
+{
+  "source_sha256": {
+    "sequences.csv.gz": "b569ca90cc6e0b13c42d3bf6d1635cc62d514172ff29e84ee2b196c1d0036b6a",
+    "rosetta_numeric.csv.gz": "b066c0b16d5aae2c8fe62d3693e3166f390cec6880231abda00236f1ef63d76a",
+    "sample_manifest.csv": "948593448413a31bab69cdac08a30851c770ba4372c719f83bfcb388968da327"
+  },
+  "checkpoints_validated": 18,
+  "proteins": {
+    "1d1q_remod_p.pdb": {
+      "train_unique": 40000,
+      "val_unique_no_train_overlap": 2000
+    },
+    "1f6b_remod_p.pdb": {
+      "train_unique": 40000,
+      "val_unique_no_train_overlap": 2000
+    },
+    "1fna_A_p.pdb": {
+      "train_unique": 40000,
+      "val_unique_no_train_overlap": 2000
+    },
+    "1im5_remod_p.pdb": {
+      "train_unique": 40000,
+      "val_unique_no_train_overlap": 2000
+    },
+    "1r26_remod_p.pdb": {
+      "train_unique": 40000,
+      "val_unique_no_train_overlap": 2000
+    },
+    "1tzv_remod_p.pdb": {
+      "train_unique": 40000,
+      "val_unique_no_train_overlap": 2000
+    },
+    "1i1j_remod_p.pdb": {
+      "test_unique": 5000,
+      "query_n": 3500
+    },
+    "1xdz_remod_p.pdb": {
+      "test_unique": 5000,
+      "query_n": 3500
+    }
+  },
+  "holdouts": [
+    "1i1j_remod_p.pdb",
+    "1xdz_remod_p.pdb"
+  ],
+  "targets": [
+    "fa_atr",
+    "fa_sol",
+    "total_sasa",
+    "rg",
+    "pack",
+    "unsat_hbond"
+  ],
+  "status": "PASS"
+}

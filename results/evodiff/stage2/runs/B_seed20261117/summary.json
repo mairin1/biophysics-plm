@@ -1,0 +1,16 @@
+{
+  "condition": "B",
+  "seed": 20261117,
+  "source_sha256": {
+    "sequences.csv.gz": "b569ca90cc6e0b13c42d3bf6d1635cc62d514172ff29e84ee2b196c1d0036b6a",
+    "rosetta_numeric.csv.gz": "b066c0b16d5aae2c8fe62d3693e3166f390cec6880231abda00236f1ef63d76a",
+    "sample_manifest.csv": "948593448413a31bab69cdac08a30851c770ba4372c719f83bfcb388968da327"
+  },
+  "n_zero_rows": 12,
+  "n_few_rows": 108,
+  "retention_status": "COMPLETE",
+  "retention_error": null,
+  "elapsed_seconds": 23.98456835746765,
+  "probe_alpha_selection": "source val for zero-shot; heldout dev for few-shot",
+  "heldout_query_never_used_to_fit_models_or_hyperparameters": true
+}

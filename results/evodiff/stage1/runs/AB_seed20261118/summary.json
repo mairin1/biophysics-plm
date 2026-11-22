@@ -1,0 +1,26 @@
+{
+  "condition": "AB",
+  "seed": 20261118,
+  "targets": [
+    "fa_dun",
+    "omega",
+    "p_aa_pp",
+    "rama_prepro",
+    "pro_close",
+    "yhh_planarity",
+    "fa_elec",
+    "fa_rep",
+    "hbond_bb_sc",
+    "hbond_lr_bb",
+    "hbond_sc",
+    "hbond_sr_bb"
+  ],
+  "n_targets": 12,
+  "best_epoch": 20,
+  "last_epoch": 26,
+  "best_val_mse": 0.34589263900121053,
+  "relative_encoder_delta": 0.03927878652586854,
+  "seconds_in_this_invocation": 6791.837061882019,
+  "status": "TRAINED",
+  "probe_rows": 24
+}

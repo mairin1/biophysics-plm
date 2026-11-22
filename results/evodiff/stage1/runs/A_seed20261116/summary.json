@@ -1,0 +1,20 @@
+{
+  "condition": "A",
+  "seed": 20261116,
+  "targets": [
+    "fa_dun",
+    "omega",
+    "p_aa_pp",
+    "rama_prepro",
+    "pro_close",
+    "yhh_planarity"
+  ],
+  "n_targets": 6,
+  "best_epoch": 23,
+  "last_epoch": 29,
+  "best_val_mse": 0.27639282431205114,
+  "relative_encoder_delta": 0.03874606987753251,
+  "seconds_in_this_invocation": 7618.714802503586,
+  "status": "TRAINED",
+  "probe_rows": 24
+}

@@ -1,0 +1,11 @@
+{
+  "method": "PARTIAL",
+  "seed": 20261117,
+  "zero_shot_rows": 12,
+  "few_shot_rows": 108,
+  "retention_rows": 12,
+  "reference_manifest": "metl-global/analysis/evodiff_transfer_20261119/evaluation_manifest.json",
+  "evaluation_seconds": 17.776239156723022,
+  "status": "PASS",
+  "interpretation": "Exploratory transfer for two proteins excluded from Rosetta encoder supervision; not independent experimental validation"
+}
