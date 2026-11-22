@@ -228,3 +228,5 @@ __marimo__/
 /results/evodiff/**/*.h5
 /results/evodiff/**/*.gz
 /experiments/checkin2_v3/__pycache__/
+*.DS_Store
+.ignore

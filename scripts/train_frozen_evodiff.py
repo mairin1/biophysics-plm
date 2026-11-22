@@ -19,11 +19,13 @@ def main():
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--epochs", type=int, default=40)
     parser.add_argument("--batch-size", type=int, default=2048)
+    parser.add_argument("--seed", type=int, default=20261115)
     args = parser.parse_args()
 
-    torch.manual_seed(20261115)
-    np.random.seed(20261115)
-    random.seed(20261115)
+    seed = args.seed
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
     assert torch.cuda.is_available()
     args.out.mkdir(parents=True, exist_ok=True)
 
@@ -294,6 +296,9 @@ def main():
     with open(args.out / "summary.json", "w") as f:
         json.dump({
             "model": "Frozen EvoDiff OA_DM_38M + MLP",
+            "seed": seed,
+            'epochs': args.epochs,
+            'batch_size': args.batch_size,
             "training_variants": len(train_indices),
             "validation_variants": len(val_indices),
             "best_epoch": best_epoch,

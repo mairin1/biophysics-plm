@@ -26,6 +26,7 @@ echo "Started: $(date)"
 python scripts/train_frozen_evodiff.py \
   --source "$SOURCE" \
   --embeddings "$EMBEDDINGS" \
-  --out "$OUTPUT"
+  --out "$OUTPUT" \
+  --seed "20261115"
 
 echo "Completed: $(date)"

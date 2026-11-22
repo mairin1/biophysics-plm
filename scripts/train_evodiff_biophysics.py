@@ -121,12 +121,14 @@ def main():
     parser.add_argument('--batch-size', type=int, default=64)
     parser.add_argument('--max-train-per-protein', type=int, default=0)
     parser.add_argument('--max-val-per-protein', type=int, default=0)
+    parser.add_argument('--seed', type=int, default=20261116)
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
     assert torch.cuda.is_available()
-    random.seed(20261116)
-    torch.manual_seed(20261116)
-    rng = np.random.default_rng(20261116)
+    seed = args.seed
+    random.seed(seed)
+    torch.manual_seed(seed)
+    rng = np.random.default_rng(seed)
     backbone, _, tokenizer, _ = OA_DM_38M()
     datasets = read_data(args.source, tokenizer, args.max_train_per_protein, args.max_val_per_protein)
     stats = normalize(datasets)
@@ -181,7 +183,8 @@ def main():
         json.dump({
             'model': 'EvoDiff OA_DM_38M, encoder+multitask head updated',
             'targets': TARGETS, 'reserved': RESERVED,
-            'seed': 20261116, 'best_epoch': best_epoch, 'best_val_mse': best_loss,
+            'epochs': args.epoch, 'batch_size': args.batch_size, # adding args for reproducibility
+            'seed': seed, 'best_epoch': best_epoch, 'best_val_mse': best_loss,
             'relative_encoder_weight_change': relative_delta,
             'train_rows': sum(len(s['tokens']) for s in trainsets.values()),
             'val_rows': sum(len(s['tokens']) for s in valsets.values()),
