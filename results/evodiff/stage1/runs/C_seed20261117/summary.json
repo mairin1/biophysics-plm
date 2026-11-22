@@ -1,0 +1,20 @@
+{
+  "condition": "C",
+  "seed": 20261117,
+  "targets": [
+    "fa_intra_rep",
+    "fa_intra_sol_xover4",
+    "lk_ball_wtd",
+    "cbeta",
+    "cenpack",
+    "env"
+  ],
+  "n_targets": 6,
+  "best_epoch": 20,
+  "last_epoch": 26,
+  "best_val_mse": 0.35337260049581526,
+  "relative_encoder_delta": 0.036912495119329605,
+  "seconds_in_this_invocation": 6815.694199323654,
+  "status": "TRAINED",
+  "probe_rows": 24
+}

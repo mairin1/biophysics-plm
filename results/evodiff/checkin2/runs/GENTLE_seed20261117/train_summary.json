@@ -1,0 +1,12 @@
+{
+  "method": "GENTLE",
+  "seed": 20261117,
+  "best_epoch": 40,
+  "last_epoch": 40,
+  "best_val_mse": 0.5003761899471283,
+  "relative_pretrained_weight_change": 0.011862883481878472,
+  "relative_embedder_weight_change": 0.01186372633363024,
+  "frozen_weight_absolute_change": 0.0,
+  "seconds": 10489.504899024963,
+  "status": "TRAIN_COMPLETE"
+}

@@ -1,0 +1,276 @@
+{
+  "source_file_sha256": {
+    "sequences.csv.gz": "b569ca90cc6e0b13c42d3bf6d1635cc62d514172ff29e84ee2b196c1d0036b6a",
+    "rosetta_numeric.csv.gz": "b066c0b16d5aae2c8fe62d3693e3166f390cec6880231abda00236f1ef63d76a",
+    "sample_manifest.csv": "948593448413a31bab69cdac08a30851c770ba4372c719f83bfcb388968da327"
+  },
+  "source": "metl-global/exports/run_29051193",
+  "rows_checked": 274000,
+  "train_proteins": [
+    "1d1q_remod_p.pdb",
+    "1f6b_remod_p.pdb",
+    "1fna_A_p.pdb",
+    "1im5_remod_p.pdb",
+    "1r26_remod_p.pdb",
+    "1tzv_remod_p.pdb"
+  ],
+  "holdout_proteins": [
+    "1i1j_remod_p.pdb",
+    "1xdz_remod_p.pdb"
+  ],
+  "counts": [
+    {
+      "protein": "1d1q_remod_p.pdb",
+      "role": "train",
+      "split": "test",
+      "count": 2000
+    },
+    {
+      "protein": "1d1q_remod_p.pdb",
+      "role": "train",
+      "split": "train",
+      "count": 40000
+    },
+    {
+      "protein": "1d1q_remod_p.pdb",
+      "role": "train",
+      "split": "val",
+      "count": 2000
+    },
+    {
+      "protein": "1f6b_remod_p.pdb",
+      "role": "train",
+      "split": "test",
+      "count": 2000
+    },
+    {
+      "protein": "1f6b_remod_p.pdb",
+      "role": "train",
+      "split": "train",
+      "count": 40000
+    },
+    {
+      "protein": "1f6b_remod_p.pdb",
+      "role": "train",
+      "split": "val",
+      "count": 2000
+    },
+    {
+      "protein": "1fna_A_p.pdb",
+      "role": "train",
+      "split": "test",
+      "count": 2000
+    },
+    {
+      "protein": "1fna_A_p.pdb",
+      "role": "train",
+      "split": "train",
+      "count": 40000
+    },
+    {
+      "protein": "1fna_A_p.pdb",
+      "role": "train",
+      "split": "val",
+      "count": 2000
+    },
+    {
+      "protein": "1i1j_remod_p.pdb",
+      "role": "holdout",
+      "split": "test",
+      "count": 5000
+    },
+    {
+      "protein": "1im5_remod_p.pdb",
+      "role": "train",
+      "split": "test",
+      "count": 2000
+    },
+    {
+      "protein": "1im5_remod_p.pdb",
+      "role": "train",
+      "split": "train",
+      "count": 40000
+    },
+    {
+      "protein": "1im5_remod_p.pdb",
+      "role": "train",
+      "split": "val",
+      "count": 2000
+    },
+    {
+      "protein": "1r26_remod_p.pdb",
+      "role": "train",
+      "split": "test",
+      "count": 2000
+    },
+    {
+      "protein": "1r26_remod_p.pdb",
+      "role": "train",
+      "split": "train",
+      "count": 40000
+    },
+    {
+      "protein": "1r26_remod_p.pdb",
+      "role": "train",
+      "split": "val",
+      "count": 2000
+    },
+    {
+      "protein": "1tzv_remod_p.pdb",
+      "role": "train",
+      "split": "test",
+      "count": 2000
+    },
+    {
+      "protein": "1tzv_remod_p.pdb",
+      "role": "train",
+      "split": "train",
+      "count": 40000
+    },
+    {
+      "protein": "1tzv_remod_p.pdb",
+      "role": "train",
+      "split": "val",
+      "count": 2000
+    },
+    {
+      "protein": "1xdz_remod_p.pdb",
+      "role": "holdout",
+      "split": "test",
+      "count": 5000
+    }
+  ],
+  "numeric_columns": [
+    "total_score",
+    "dslf_fa13",
+    "fa_atr",
+    "fa_dun",
+    "fa_elec",
+    "fa_intra_rep",
+    "fa_intra_sol_xover4",
+    "fa_rep",
+    "fa_sol",
+    "hbond_bb_sc",
+    "hbond_lr_bb",
+    "hbond_sc",
+    "hbond_sr_bb",
+    "lk_ball_wtd",
+    "omega",
+    "p_aa_pp",
+    "pro_close",
+    "rama_prepro",
+    "ref",
+    "yhh_planarity",
+    "filter_total_score",
+    "buried_all",
+    "buried_np",
+    "contact_all",
+    "contact_buried_core",
+    "contact_buried_core_boundary",
+    "degree",
+    "degree_core",
+    "degree_core_boundary",
+    "exposed_hydrophobics",
+    "exposed_np_AFIMLWVY",
+    "exposed_polars",
+    "exposed_total",
+    "one_core_each",
+    "pack",
+    "res_count_all",
+    "res_count_buried_core",
+    "res_count_buried_core_boundary",
+    "res_count_buried_np_core",
+    "res_count_buried_np_core_boundary",
+    "ss_contributes_core",
+    "ss_mis",
+    "total_hydrophobic",
+    "total_hydrophobic_AFILMVWY",
+    "total_sasa",
+    "two_core_each",
+    "unsat_hbond",
+    "centroid_total_score",
+    "cbeta",
+    "cenpack",
+    "env",
+    "hs_pair",
+    "linear_chainbreak",
+    "overlap_chainbreak",
+    "pair",
+    "rg",
+    "rsigma",
+    "sheet",
+    "ss_pair",
+    "vdw"
+  ],
+  "families": {
+    "A": [
+      "fa_dun",
+      "omega",
+      "p_aa_pp",
+      "rama_prepro",
+      "pro_close",
+      "yhh_planarity"
+    ],
+    "B": [
+      "fa_elec",
+      "fa_rep",
+      "hbond_bb_sc",
+      "hbond_lr_bb",
+      "hbond_sc",
+      "hbond_sr_bb"
+    ],
+    "C": [
+      "fa_intra_rep",
+      "fa_intra_sol_xover4",
+      "lk_ball_wtd",
+      "cbeta",
+      "cenpack",
+      "env"
+    ],
+    "D_proposed": [
+      "buried_all",
+      "buried_np",
+      "contact_all",
+      "degree",
+      "exposed_hydrophobics",
+      "ss_mis"
+    ]
+  },
+  "conditions": {
+    "A": [
+      "A"
+    ],
+    "B": [
+      "B"
+    ],
+    "C": [
+      "C"
+    ],
+    "AB": [
+      "A",
+      "B"
+    ],
+    "BC": [
+      "B",
+      "C"
+    ],
+    "ABC": [
+      "A",
+      "B",
+      "C"
+    ]
+  },
+  "reserved_probes": [
+    "fa_atr",
+    "fa_sol",
+    "total_sasa",
+    "rg",
+    "pack",
+    "unsat_hbond"
+  ],
+  "family_D_missing": [],
+  "rotation_ready": false,
+  "rotation_blocker": "Current export has only 5k held-out-protein test rows and no training or validation rows for those proteins; construct an eight-protein master pool first",
+  "audit_note": "Correlations from training rows only. This gate validates existing Fold A labels, NOT the scientific optimality of each family.",
+  "plot_error": null
+}
