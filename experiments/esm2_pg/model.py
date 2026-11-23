@@ -55,8 +55,13 @@ class TokenizerShim:
             raise RuntimeError('ESM-2 tokenizer is missing <cls>/<eos>')
 
 
-def load_encoder():
+def load_encoder(model_name=ESM2_MODEL):
     """Load the ESM-2 encoder and a tokenizer shim.
+
+    `model_name` exists so a tiny ESM-2 (for example
+    facebook/esm2_t6_8M_UR50D) can be substituted for plumbing tests. The
+    architecture assertions only apply to the real 650M checkpoint; a
+    substituted model is accepted at whatever size it is.
 
     The published checkpoint is an EsmForMaskedLM, so loading EsmModel prints
     five `lm_head.*` keys as UNEXPECTED. That is expected: we only mean-pool
@@ -68,15 +73,16 @@ def load_encoder():
     retention check would need; load EsmForMaskedLM for that.
     """
     from transformers import AutoTokenizer, EsmModel
-    hf_tokenizer = AutoTokenizer.from_pretrained(ESM2_MODEL)
-    encoder = EsmModel.from_pretrained(ESM2_MODEL, add_pooling_layer=False)
-    layers = encoder.encoder.layer
-    if len(layers) != N_LAYERS:
-        raise RuntimeError(f'Expected {N_LAYERS} ESM-2 layers, found {len(layers)}')
-    if encoder.config.hidden_size != EMBED_DIM:
-        raise RuntimeError(
-            f'Expected hidden size {EMBED_DIM}, found {encoder.config.hidden_size}'
-        )
+    hf_tokenizer = AutoTokenizer.from_pretrained(model_name)
+    encoder = EsmModel.from_pretrained(model_name, add_pooling_layer=False)
+    if model_name == ESM2_MODEL:
+        layers = encoder.encoder.layer
+        if len(layers) != N_LAYERS:
+            raise RuntimeError(f'Expected {N_LAYERS} ESM-2 layers, found {len(layers)}')
+        if encoder.config.hidden_size != EMBED_DIM:
+            raise RuntimeError(
+                f'Expected hidden size {EMBED_DIM}, found {encoder.config.hidden_size}'
+            )
     return encoder, TokenizerShim(hf_tokenizer)
 
 
@@ -87,7 +93,7 @@ class Esm2Predictor(nn.Module):
         self.cls_id = cls_id
         self.eos_id = eos_id
         self.head = nn.Sequential(
-            nn.Linear(EMBED_DIM, 256), nn.GELU(), nn.Dropout(0.1),
+            nn.Linear(encoder.config.hidden_size, 256), nn.GELU(), nn.Dropout(0.1),
             nn.Linear(256, n_targets),
         )
 
@@ -178,9 +184,9 @@ def l2sp_penalty(model, anchor, denom):
     return torch.stack(diffs).sum() / denom
 
 
-def load_condition(condition, seed, device='cuda'):
+def load_condition(condition, seed, device='cuda', model_name=ESM2_MODEL):
     """Encoder for evaluation: pretrained for BASELINE, else from a checkpoint."""
-    encoder, tokenizer = load_encoder()
+    encoder, tokenizer = load_encoder(model_name)
     model = Esm2Predictor(encoder, 1, tokenizer.cls_id, tokenizer.eos_id)
     if condition != 'BASELINE':
         path = run_dir(condition, seed) / 'best_model.pt'

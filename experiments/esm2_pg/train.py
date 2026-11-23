@@ -42,6 +42,10 @@ RELATIVE_MIN_DELTA = 0.002
 MICRO_BATCH = 16
 ACCUM_STEPS = 4  # effective batch 64, matching the EvoDiff runs
 
+# The real run requires a GPU; the CPU fallback exists so the training loop
+# (accumulation, L2-SP, freezing) can be exercised in tests.
+DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+
 
 def atomic_torch_save(payload, path):
     tmp = path.with_suffix(path.suffix + '.partial')
@@ -74,12 +78,13 @@ def run_epoch(model, data, split, rng, optimizer=None, scheduler=None,
 
     for index, (protein, ids) in enumerate(jobs):
         subset = data[protein][split]
-        tokens = torch.as_tensor(subset['tokens'][ids].astype(np.int64), device='cuda')
-        labels = torch.as_tensor(subset['labels'][ids], dtype=torch.float32, device='cuda')
-        mask = torch.as_tensor(subset['mask'], dtype=torch.float32, device='cuda')
+        tokens = torch.as_tensor(subset['tokens'][ids].astype(np.int64), device=DEVICE)
+        labels = torch.as_tensor(subset['labels'][ids], dtype=torch.float32, device=DEVICE)
+        mask = torch.as_tensor(subset['mask'], dtype=torch.float32, device=DEVICE)
 
         with torch.set_grad_enabled(training):
-            with torch.autocast(device_type='cuda', dtype=torch.bfloat16):
+            with torch.autocast(device_type=DEVICE, dtype=torch.bfloat16,
+                                enabled=(DEVICE == 'cuda')):
                 predicted = model(tokens)
                 squared = (predicted.float() - labels).square()
                 raw_loss = (squared * mask).sum() / (mask.sum() * len(ids))
@@ -142,7 +147,7 @@ def main():
     started = time.time()
 
     encoder, tokenizer = load_encoder()
-    model = Esm2Predictor(encoder, len(TARGETS), tokenizer.cls_id, tokenizer.eos_id).cuda()
+    model = Esm2Predictor(encoder, len(TARGETS), tokenizer.cls_id, tokenizer.eos_id).to(DEVICE)
     detail = set_strategy(model, args.method)
 
     data = metl.load_data(tokenizer, TARGETS, args.seed)
@@ -161,7 +166,7 @@ def main():
     }
     if args.method == 'L2SP':
         anchor = {
-            name: tensor.to('cuda', dtype=torch.float32)
+            name: tensor.to(DEVICE, dtype=torch.float32)
             for name, tensor in initial.items()
         }
         denom = torch.stack([t.square().sum() for t in anchor.values()]).sum().detach()

@@ -185,6 +185,9 @@ def main():
                         help='Cap variants per assay below the manifest (smoke testing)')
     parser.add_argument('--allow-cpu', action='store_true',
                         help='Permit a CPU run; far too slow for the real sweep')
+    parser.add_argument('--model', default=ESM2_MODEL,
+                        help='Substitute encoder for plumbing tests, e.g. '
+                             'facebook/esm2_t6_8M_UR50D')
     args = parser.parse_args()
     if args.condition != 'BASELINE' and args.seed is None:
         parser.error('--seed is required unless --condition BASELINE')
@@ -201,7 +204,7 @@ def main():
     # A truncated run is not a result. It goes to its own directory and never
     # writes SUCCESS, so it cannot be mistaken for a real evaluation and cannot
     # make the real run skip itself.
-    smoke = bool(args.limit or args.max_variants)
+    smoke = bool(args.limit or args.max_variants or args.model != ESM2_MODEL)
     out = eval_dir(args.condition, args.seed)
     if smoke:
         out = out.with_name(out.name + '_smoke')
@@ -220,8 +223,16 @@ def main():
         assays = assays[:args.limit]
 
     started = time.time()
-    model, tokenizer = load_condition(args.condition, args.seed, device=DEVICE)
+    print(f'Loading {args.model} on {DEVICE} ...', flush=True)
+    model, tokenizer = load_condition(args.condition, args.seed, device=DEVICE,
+                                      model_name=args.model)
     model.residue_lookup = tokenizer.a_to_i
+    print(f'Model ready in {time.time()-started:.0f}s; '
+          f'{len(assays)} assays to score', flush=True)
+    if DEVICE == 'cpu':
+        print('WARNING: on CPU a 650M encoder needs seconds per sequence. '
+              'Use --model facebook/esm2_t6_8M_UR50D with a small '
+              '--max-variants for a plumbing check.', flush=True)
 
     rows, skipped = [], []
     for index, assay in enumerate(assays, 1):
@@ -236,12 +247,18 @@ def main():
         except (IndexError, KeyError, ValueError) as exc:
             raise RuntimeError(f'{name}: assay file no longer matches the manifest') from exc
 
+        print(f'[{index}/{len(assays)}] {name}: embedding {len(sequences)} '
+              f'variants of length {assay["window_len"]} ...', flush=True)
+        embed_started = time.time()
         try:
             features = embed_assay(
                 model, sequences, assay['window_start'], assay['window_len'])
         except ValueError as exc:
             skipped.append({'DMS_id': name, 'reason': str(exc)})
+            print(f'[{index}/{len(assays)}] {name}: skipped ({exc})', flush=True)
             continue
+        print(f'[{index}/{len(assays)}] {name}: embedded in '
+              f'{time.time()-embed_started:.0f}s', flush=True)
 
         for scheme in SPLIT_SCHEMES:
             folds = folds_npz[f'{name}__fold_{scheme}'].astype(np.int64)[keep]
@@ -262,8 +279,12 @@ def main():
                 **result,
             })
 
-        if index % 10 == 0 or index == len(assays):
-            print(f'{index}/{len(assays)} assays | {time.time()-started:.0f}s', flush=True)
+        done = [r['spearman'] for r in rows if r['DMS_id'] == name
+                and r['split_scheme'] == SPLIT_SCHEMES[0]]
+        if done:
+            print(f'[{index}/{len(assays)}] {name}: '
+                  f'{SPLIT_SCHEMES[0]} rho={done[0]:.3f} '
+                  f'| total {time.time()-started:.0f}s', flush=True)
 
     if not rows:
         raise RuntimeError('No assay produced a usable correlation')
@@ -274,7 +295,7 @@ def main():
         'n_scored', 'n_folds_used', 'median_alpha'])
 
     summary = {
-        'model': ESM2_MODEL,
+        'model': args.model,
         'condition': args.condition,
         'seed': args.seed,
         'proteingym_version': manifest_summary['proteingym_version'],

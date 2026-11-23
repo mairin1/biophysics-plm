@@ -78,19 +78,26 @@ there, not from inside `experiments/esm2_pg/`.** The data must also exist first:
 cd <repo root>
 python experiments/esm2_pg/fetch_proteingym.py
 python experiments/esm2_pg/build_eval_manifest.py
-python experiments/esm2_pg/proteingym_eval.py \
-    --condition BASELINE --allow-cpu --limit 2 --max-variants 100
+python experiments/esm2_pg/proteingym_eval.py --condition BASELINE \
+    --allow-cpu --model facebook/esm2_t6_8M_UR50D --limit 2 --max-variants 100
 ```
 
-`--limit N` evaluates only the first N assays and `--max-variants N` caps the
-variants per assay. Either flag makes the run a smoke test: output goes to a
-`_smoke` directory, `status` is `SMOKE`, and no `SUCCESS` marker is written, so
-a truncated run can never be mistaken for a result or cause the real run to
-skip itself.
+**Do not smoke test the 650M model on CPU.** One forward pass costs roughly
+`2 x 650M x n_tokens`, about 390 GFLOP for a 300-residue sequence, so a login
+node needs *seconds per sequence*: even 200 sequences is a half-hour job that
+looks like a hang. Pass `--model facebook/esm2_t6_8M_UR50D` instead. The 8M
+checkpoint exercises every line of the real code path, takes a few seconds, and
+is the only sensible way to check plumbing without a GPU. To time the real
+encoder, get an interactive GPU shell (`srun --gpus=l40s:1 --pty bash`) rather
+than using the login node.
 
-Keep both numbers small. On CPU, ESM-2 650M embeds only a few sequences per
-second, so a single uncapped assay of 2,000 variants can take well over an
-hour.
+Any of `--limit`, `--max-variants`, or a non-default `--model` marks the run a
+smoke test: output goes to a `_smoke` directory, `status` is `SMOKE`, and no
+`SUCCESS` marker is written, so a truncated run can never be mistaken for a
+result or cause the real run to skip itself.
+
+The evaluator prints a line per assay as it goes, so silence means it is
+genuinely stuck rather than merely quiet.
 
 ## Output
 
