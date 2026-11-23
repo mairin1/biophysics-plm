@@ -181,6 +181,8 @@ def main():
     parser.add_argument('--manifest', type=Path, default=BASE / 'proteingym_manifest')
     parser.add_argument('--limit', type=int, default=0,
                         help='Evaluate only the first N assays (smoke testing)')
+    parser.add_argument('--max-variants', type=int, default=0,
+                        help='Cap variants per assay below the manifest (smoke testing)')
     parser.add_argument('--allow-cpu', action='store_true',
                         help='Permit a CPU run; far too slow for the real sweep')
     args = parser.parse_args()
@@ -190,11 +192,24 @@ def main():
     if not torch.cuda.is_available() and not args.allow_cpu:
         raise RuntimeError('GPU is required (pass --allow-cpu to smoke test)')
     if not (args.manifest / 'MANIFEST_READY').is_file():
-        raise RuntimeError(f'Build the evaluation manifest first: {args.manifest}')
+        raise RuntimeError(
+            f'Build the evaluation manifest first: {args.manifest}\n'
+            'Run, from the repository root:\n'
+            '  python experiments/esm2_pg/fetch_proteingym.py\n'
+            '  python experiments/esm2_pg/build_eval_manifest.py')
 
+    # A truncated run is not a result. It goes to its own directory and never
+    # writes SUCCESS, so it cannot be mistaken for a real evaluation and cannot
+    # make the real run skip itself.
+    smoke = bool(args.limit or args.max_variants)
     out = eval_dir(args.condition, args.seed)
+    if smoke:
+        out = out.with_name(out.name + '_smoke')
+        print(f'SMOKE TEST: truncated run, writing to {out}; '
+              'results are not comparable and no SUCCESS marker is written',
+              flush=True)
     out.mkdir(parents=True, exist_ok=True)
-    if (out / 'SUCCESS').is_file():
+    if not smoke and (out / 'SUCCESS').is_file():
         print(f'Already complete: {out}', flush=True)
         return
 
@@ -212,6 +227,10 @@ def main():
     for index, assay in enumerate(assays, 1):
         name = assay['DMS_id']
         selected = folds_npz[f'{name}__rows']
+        keep = slice(None)
+        if args.max_variants and len(selected) > args.max_variants:
+            keep = slice(0, args.max_variants)
+            selected = selected[keep]
         try:
             sequences, scores = load_selected(PG_ASSAYS / assay['filename'], selected)
         except (IndexError, KeyError, ValueError) as exc:
@@ -225,7 +244,7 @@ def main():
             continue
 
         for scheme in SPLIT_SCHEMES:
-            folds = folds_npz[f'{name}__fold_{scheme}'].astype(np.int64)
+            folds = folds_npz[f'{name}__fold_{scheme}'].astype(np.int64)[keep]
             rng = np.random.default_rng(ALPHA_SELECTION_SEED)
             result = cross_validate(features, scores, folds, rng)
             if result is None:
@@ -236,7 +255,7 @@ def main():
                 'seed': args.seed if args.seed is not None else '',
                 'DMS_id': name,
                 'split_scheme': scheme,
-                'n_variants': assay['n_selected'],
+                'n_variants': len(scores),
                 'seq_len': assay['seq_len'],
                 'taxon': assay['taxon'],
                 'coarse_selection_type': assay['coarse_selection_type'],
@@ -265,7 +284,10 @@ def main():
         'skipped': skipped[:50],
         'seconds': time.time() - started,
         'metric': 'pooled out-of-fold Spearman per assay; never pooled across assays',
-        'status': 'PASS',
+        'smoke_test': smoke,
+        'assay_limit': args.limit or None,
+        'variant_cap': args.max_variants or None,
+        'status': 'SMOKE' if smoke else 'PASS',
     }
     for scheme in SPLIT_SCHEMES:
         values = [r['spearman'] for r in rows
@@ -274,8 +296,11 @@ def main():
             summary[f'mean_spearman_{scheme}'] = float(np.mean(values))
             summary[f'median_spearman_{scheme}'] = float(np.median(values))
     write_json(out / 'summary.json', summary)
-    (out / 'SUCCESS').touch()
-    print('EVALUATION SUCCESS', out, summary, flush=True)
+    if smoke:
+        print('SMOKE TEST COMPLETE (no SUCCESS marker written)', out, summary, flush=True)
+    else:
+        (out / 'SUCCESS').touch()
+        print('EVALUATION SUCCESS', out, summary, flush=True)
 
 
 if __name__ == '__main__':

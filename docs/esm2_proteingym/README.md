@@ -71,8 +71,26 @@ python experiments/esm2_pg/fetch_proteingym.py
 
 ### Smoke test
 
-`proteingym_eval.py --limit 3 --allow-cpu` runs a few assays without a GPU. It
-is far too slow for the real sweep but confirms the plumbing.
+**Every script resolves its paths from the repository root, so run them from
+there, not from inside `experiments/esm2_pg/`.** The data must also exist first:
+
+```bash
+cd <repo root>
+python experiments/esm2_pg/fetch_proteingym.py
+python experiments/esm2_pg/build_eval_manifest.py
+python experiments/esm2_pg/proteingym_eval.py \
+    --condition BASELINE --allow-cpu --limit 2 --max-variants 100
+```
+
+`--limit N` evaluates only the first N assays and `--max-variants N` caps the
+variants per assay. Either flag makes the run a smoke test: output goes to a
+`_smoke` directory, `status` is `SMOKE`, and no `SUCCESS` marker is written, so
+a truncated run can never be mistaken for a result or cause the real run to
+skip itself.
+
+Keep both numbers small. On CPU, ESM-2 650M embeds only a few sequences per
+second, so a single uncapped assay of 2,000 variants can take well over an
+hour.
 
 ## Output
 
