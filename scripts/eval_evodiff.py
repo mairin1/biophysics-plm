@@ -19,9 +19,13 @@ class Embedder():
         self.embedder = model.embedder.requires_grad_(False).eval()
         self.last_norm = model.last_norm.requires_grad_(False).eval()
 
+    @torch.no_grad()
     def embed(self, x):
-        embeddings = self.last_norm(self.embedder(x, None))
-        return embeddings.mean(dim=1).float()
+        # x: list of token-id lists (equal length within a call) -> (batch, 1024) numpy array
+        device = next(self.embedder.parameters()).device
+        tokens = torch.as_tensor(x, dtype=torch.long, device=device)
+        embeddings = self.last_norm(self.embedder(tokens, None))
+        return embeddings.mean(dim=1).float().cpu().numpy()
     
 
 class PGData():
@@ -75,7 +79,6 @@ def main():
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
 
-    assert (torch.cuda.is_available())
     model_pt = Embedder(args.model) # Post-trained embeddings
     model_default = Embedder() # Baseline model
     # Load data
