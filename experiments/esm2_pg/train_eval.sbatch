@@ -8,14 +8,14 @@
 #SBATCH --output=logs/esm2_pg_train_%A_%a.out
 #SBATCH --error=logs/esm2_pg_train_%A_%a.err
 set -eo pipefail
-cd "$HOME/orcd/pool/biophysics-plm"
+cd "${BIOPHYS_ROOT:-$HOME/biophysics-plm}"
 module load miniforge/24.3.0-0
 eval "$(conda shell.bash hook)"
 conda activate "${ESM2_ENV:-esm2-run}"
 
-# Keep HuggingFace downloads off the home quota and out of the way of
-# concurrent array tasks.
-export HF_HOME="${HF_HOME:-$HOME/orcd/pool/hf_cache}"
+# Shared checkpoint cache so the nine array tasks download ESM-2 (~2.6GB) once.
+# Point HF_HOME elsewhere if the home quota is tight.
+export HF_HOME="${HF_HOME:-$HOME/hf_cache}"
 export TOKENIZERS_PARALLELISM=false
 
 methods=(GENTLE L2SP PARTIAL)

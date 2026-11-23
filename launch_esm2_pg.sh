@@ -1,6 +1,6 @@
 #!/bin/bash
 set -eo pipefail
-cd "$HOME/orcd/pool/biophysics-plm"
+cd "${BIOPHYS_ROOT:-$HOME/biophysics-plm}"
 BASE=metl-global/analysis/esm2_pg_20261122
 SCRIPTS=experiments/esm2_pg
 mkdir -p "$BASE" logs

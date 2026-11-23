@@ -58,9 +58,20 @@ conda activate esm2-run
 pip install torch transformers numpy scikit-learn pandas
 ```
 
-The sbatch scripts read `ESM2_ENV` (default `esm2-run`) and set `HF_HOME` to
-`$HOME/orcd/pool/hf_cache` so the ~2.6GB checkpoint does not land on the home
-quota.
+The sbatch scripts read three environment variables, all with defaults:
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `BIOPHYS_ROOT` | `$HOME/biophysics-plm` | Repository checkout the jobs `cd` into |
+| `ESM2_ENV` | `esm2-run` | Conda environment to activate |
+| `HF_HOME` | `$HOME/hf_cache` | Shared cache so the nine array tasks download ESM-2 (~2.6GB) once |
+
+Submit from the repository root: the `#SBATCH --output=logs/...` paths are
+relative to the submission directory, not to `BIOPHYS_ROOT`.
+
+Note that the older EvoDiff scripts under `scripts/` and
+`experiments/checkin2_v3/` still `cd` to `$HOME/orcd/pool/biophysics-plm`, which
+is a different path from this experiment's default.
 
 If compute nodes have no outbound network, run the download on a login node
 first; `prepare.sbatch` then skips straight to building the manifest:

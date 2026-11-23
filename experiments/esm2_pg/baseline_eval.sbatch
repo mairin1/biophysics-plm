@@ -8,12 +8,12 @@
 #SBATCH --output=logs/esm2_pg_baseline_%j.out
 #SBATCH --error=logs/esm2_pg_baseline_%j.err
 set -eo pipefail
-cd "$HOME/orcd/pool/biophysics-plm"
+cd "${BIOPHYS_ROOT:-$HOME/biophysics-plm}"
 module load miniforge/24.3.0-0
 eval "$(conda shell.bash hook)"
 conda activate "${ESM2_ENV:-esm2-run}"
 
-export HF_HOME="${HF_HOME:-$HOME/orcd/pool/hf_cache}"
+export HF_HOME="${HF_HOME:-$HOME/hf_cache}"
 export TOKENIZERS_PARALLELISM=false
 
 # Frozen pretrained ESM-2: the reference every fine-tuned encoder is paired against.

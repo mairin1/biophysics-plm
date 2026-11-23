@@ -7,7 +7,7 @@
 #SBATCH --output=logs/esm2_pg_report_%j.out
 #SBATCH --error=logs/esm2_pg_report_%j.err
 set -eo pipefail
-cd "$HOME/orcd/pool/biophysics-plm"
+cd "${BIOPHYS_ROOT:-$HOME/biophysics-plm}"
 module load miniforge/24.3.0-0
 eval "$(conda shell.bash hook)"
 conda activate "${ESM2_ENV:-esm2-run}"
