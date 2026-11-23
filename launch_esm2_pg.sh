@@ -10,15 +10,16 @@ if [[ -f "$BASE/SUBMITTED" || -f "$BASE/PARTIAL_SUBMISSION" ]]; then
     exit 0
 fi
 python3 -m py_compile "$SCRIPTS"/*.py
-for required in \
-  metl-global/exports/run_29051193/sequences.csv.gz \
-  metl-global/exports/run_29051193/rosetta_numeric.csv.gz \
-  scripts/train_evodiff_stage1.py; do
-    if [[ ! -f "$required" ]]; then
-        echo "Missing required artifact: $required. Nothing submitted." >&2
-        exit 1
-    fi
-done
+if [[ ! -f scripts/train_evodiff_stage1.py ]]; then
+    echo 'Missing scripts/train_evodiff_stage1.py. Nothing submitted.' >&2
+    exit 1
+fi
+# Confirms the METL export exists and is byte-identical to the data the
+# EvoDiff Check-in 2 runs used, so the two sets of results stay comparable.
+if ! python3 "$SCRIPTS/preflight.py"; then
+    echo 'Export preflight failed. Nothing submitted.' >&2
+    exit 1
+fi
 
 # Download ProteinGym and freeze the evaluation design.
 prep=$(sbatch --parsable "$SCRIPTS/prepare.sbatch")

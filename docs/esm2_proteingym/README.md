@@ -27,6 +27,28 @@ licence acknowledgement and token. Note that Check-in 1 used actual ESM-3
 embeddings (`embeddings/esm3_embeddings_9912.npz`), so those earlier numbers and
 these are **not** the same model and should not be compared directly.
 
+## Prerequisite: the METL export
+
+`metl-global/exports/run_29051193/` is gitignored, so cloning this repository
+does **not** give you the training data. It holds:
+
+- `sequences.csv.gz`
+- `rosetta_numeric.csv.gz`
+- `sample_manifest.csv`
+
+Copy it from wherever the EvoDiff Check-in 2 runs were made. The launcher runs
+`preflight.py`, which hashes those three files and compares them against the
+SHA-256 values recorded in `results/evodiff/checkin2/preflight.json` when the
+EvoDiff runs happened. A mismatch aborts the submission, because ESM-2 trained
+on a different export cannot be compared against the EvoDiff results. Override
+with `--allow-mismatch` only deliberately.
+
+Check the copy by itself with:
+
+```bash
+python experiments/esm2_pg/preflight.py
+```
+
 ## Running it
 
 One command submits the whole chain:
