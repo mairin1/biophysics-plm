@@ -56,6 +56,17 @@ class TokenizerShim:
 
 
 def load_encoder():
+    """Load the ESM-2 encoder and a tokenizer shim.
+
+    The published checkpoint is an EsmForMaskedLM, so loading EsmModel prints
+    five `lm_head.*` keys as UNEXPECTED. That is expected: we only mean-pool
+    hidden states and never score tokens, so the masked-LM head is discarded.
+    A MISSING section would be the real problem, since it would mean encoder
+    weights were randomly initialised rather than loaded.
+
+    Restoring the head is what a ProteinGym zero-shot or masked-token
+    retention check would need; load EsmForMaskedLM for that.
+    """
     from transformers import AutoTokenizer, EsmModel
     hf_tokenizer = AutoTokenizer.from_pretrained(ESM2_MODEL)
     encoder = EsmModel.from_pretrained(ESM2_MODEL, add_pooling_layer=False)
