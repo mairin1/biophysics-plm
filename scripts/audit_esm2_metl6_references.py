@@ -360,10 +360,15 @@ def main() -> None:
         )
         writer.writeheader()
         for pdb_id in unique_pdb_ids:
-            row = dict(downloads[pdb_id])
-            row["pdb_id"] = pdb_id
-            row["coordinate_path"] = row.pop("path")
-            writer.writerow(row)
+            source = downloads[pdb_id]
+            writer.writerow({
+                "pdb_id": pdb_id,
+                "coordinate_path": source["path"],
+                "source_url": source["url"],
+                "coordinate_sha256": source["sha256"],
+                "header_id": source["header_id"],
+                "error": source["error"],
+            })
 
     counts = Counter(row["status"] for row in audit_rows)
     print("\n=== Audit-status counts ===")
