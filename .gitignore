@@ -233,3 +233,6 @@ __marimo__/
 
 data/protein_gym
 .ignore
+
+# ProteinGym v1.3 DMS substitutions (~1.0GB, fetched by experiments/esm2_pg)
+data/proteingym_v1.3

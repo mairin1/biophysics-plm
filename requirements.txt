@@ -1,3 +1,7 @@
 sqlite3
 pandas
 scikit-learn
+numpy
+torch
+# ESM-2 650M (facebook/esm2_t33_650M_UR50D); ungated, no HF token required
+transformers
